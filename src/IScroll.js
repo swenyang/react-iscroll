@@ -216,7 +216,7 @@ IScroll.propTypes = {
     dynamicTop: PropTypes.bool,
 
     // Calculate the wrapper's bottom dynamically,
-    // since we can use the wrapper's height for calculation, so expose a function
+    // since we can't use the wrapper's height for calculation, so I exposed a function
     // notes: because IScroll is mounted before the parent,
     // if you want to use this feature, make sure to call updateIScroll() when parent is mounted,
     // just like the async load
@@ -246,7 +246,7 @@ IScroll.propTypes = {
 }
 
 IScroll.defaultProps = {
-    alwaysScroll: false,
+    alwaysScroll: true,
     dynamicTop: false,
 }
 

@@ -66,6 +66,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
+	exports.setDefaultIScrollOptions = undefined;
+
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -85,10 +88,25 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var eventsMap = [["beforeScrollStart", "onBeforeScrollStart"], ["scrollCancel", "onScrollCancel"], ["scrollStart", "onScrollStart"], ["scroll", "onScroll"], ["scrollEnd", "onScrollEnd"], ["flick", "onFlick"], ["zoomStart", "onZoomStart"], ["zoomEnd", "onZoomEnd"]];
+	var iScrollEventsMap = [["beforeScrollStart", "onBeforeScrollStart"], ["scrollCancel", "onScrollCancel"], ["scrollStart", "onScrollStart"], ["scroll", "onScroll"], ["scrollEnd", "onScrollEnd"], ["flick", "onFlick"], ["zoomStart", "onZoomStart"], ["zoomEnd", "onZoomEnd"]];
+
+	var defaultIScrollOptions = {};
+
+	/**
+	 * set default iScroll options for massive usage convenience
+	 * @param options see http://iscrolljs.com/
+	 */
+	var setDefaultIScrollOptions = exports.setDefaultIScrollOptions = function setDefaultIScrollOptions(options) {
+	    Object.assign(defaultIScrollOptions, options);
+	};
 
 	var IScroll = function (_Component) {
 	    _inherits(IScroll, _Component);
+
+	    // reference to iscroll instance
+
+
+	    // the iscroll options
 
 	    function IScroll(props) {
 	        _classCallCheck(this, IScroll);
@@ -98,18 +116,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	        _this._options = {};
 	        _this._listenToTouchEnd = false;
 
-	        var probeType = void 0;
+
+	        Object.assign(_this._options, defaultIScrollOptions, props.options);
 	        if (props.pullDownToRefresh) {
-	            probeType = 2;
+	            _this._options.probeType = 2;
 	        }
-	        _this._options = Object.assign({
-	            scrollbars: true,
-	            mouseWheel: true,
-	            shrinkScrollbars: "scale",
-	            fadeScrollbars: true,
-	            click: true,
-	            probeType: probeType
-	        }, props.options);
+
 	        _this.state = {
 	            pullDownActive: false,
 	            pullDownVisible: false
@@ -120,6 +132,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return _this;
 	    }
 
+	    /**
+	     * Since IScroll don't know children updated or not, you might need to call this function manually.
+	     * e.g. on async data loaded, or on children's state changed
+	     * TODO: should be called automatically on needed, manual call is inconvenient
+	     */
+
+
+	    // touchend listener is used for PullDownToRefresh
+
+
 	    _createClass(IScroll, [{
 	        key: "updateIScroll",
 	        value: function updateIScroll() {
@@ -128,26 +150,48 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var wrapper = this.refs.wrapper;
 	            var scroller = this.refs.scroller;
 	            if (wrapper && scroller) {
-	                //console.log("update iscroll")
-	                wrapper.style.top = (0, _utils.getOffset)(wrapper.parentNode).top + "px";
-	                scroller.style.minHeight = wrapper.clientHeight + 1 + "px";
-	                if (this._iScroll) {
-	                    //this._iScroll.destroy()
-	                    //this._iScroll = undefined
-	                    this._iScroll.refresh();
-	                    return;
-	                }
-	                this._iScroll = new this.props.iScroll(wrapper, this._options);
-	                eventsMap.map(function (elem) {
-	                    if (_this2.props[elem[1]]) {
-	                        _this2._iScroll.on(elem[0], (0, _utils.wrapFunc)(_this2.props[elem[1]]));
+	                var _ret = function () {
+	                    var props = _this2.props;
+
+	                    // apply wrapper's dynamic properties
+
+	                    if (props.dynamicTop) {
+	                        wrapper.style.top = (0, _utils.getOffset)(wrapper.parentNode).top + "px";
 	                    }
-	                });
-	                if (this.props.pullDownToRefresh) {
-	                    this._iScroll.on("scrollStart", (0, _utils.wrapFunc)(this.onScrollStart));
-	                    this._iScroll.on("scroll", (0, _utils.wrapFunc)(this.onScroll));
-	                    //this._iScroll.on("scrollEnd", wrapFunc(this.onScrollEnd))
-	                }
+	                    if (props.dynamicBottomFunc) {
+	                        wrapper.style.bottom = props.dynamicBottomFunc() + "px";
+	                    }
+
+	                    if (props.alwaysScroll) {
+	                        scroller.style.minHeight = wrapper.clientHeight + 1 + "px";
+	                    }
+
+	                    // If iscroll instance exists, just update
+	                    if (_this2._iScroll) {
+	                        _this2._iScroll.refresh();
+	                        return {
+	                            v: void 0
+	                        };
+	                    }
+	                    // Create new iscroll instance here
+	                    _this2._iScroll = new props.iScroll(wrapper, _this2._options);
+
+	                    // Register listeners for events
+	                    iScrollEventsMap.map(function (elem) {
+	                        if (props[elem[1]]) {
+	                            _this2._iScroll.on(elem[0], (0, _utils.wrapFunc)(props[elem[1]]));
+	                        }
+	                    });
+
+	                    // If PullDownToRefresh is enabled, we need to register more listeners
+	                    if (props.pullDownToRefresh) {
+	                        _this2._iScroll.on("scrollStart", (0, _utils.wrapFunc)(_this2.onScrollStart));
+	                        _this2._iScroll.on("scroll", (0, _utils.wrapFunc)(_this2.onScroll));
+	                        //this._iScroll.on("scrollEnd", wrapFunc(this.onScroll))
+	                    }
+	                }();
+
+	                if ((typeof _ret === "undefined" ? "undefined" : _typeof(_ret)) === "object") return _ret.v;
 	            }
 	        }
 	    }, {
@@ -158,22 +202,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	                document.documentElement.addEventListener("touchend", this.onTouchEnd);
 	            }
 	        }
+
+	        /**
+	         * on iscroll scroll event, we update the PullDownToRefresh component's state and position
+	         * @param iScrollInstance
+	         */
+
 	    }, {
 	        key: "onScroll",
-	        value: function onScroll(instance) {
-	            //console.log("srcoll ", instance.y)
+	        value: function onScroll(iScrollInstance) {
 	            var pullDownToRefresh = this.props.pullDownToRefresh;
 
-	            var showDistance = pullDownToRefresh.showDistance || 40;
-	            var activeDistance = pullDownToRefresh.activeDistance || 110;
-	            var pullDownActive = false,
-	                pullDownVisible = false;
-	            if (instance.y >= showDistance) {
-	                pullDownVisible = true;
-	            }
-	            if (instance.y >= activeDistance) {
-	                pullDownActive = true;
-	            }
+	            var appearDistance = pullDownToRefresh.appearDistance || 20;
+	            var activeDistance = pullDownToRefresh.activeDistance || 55;
+
+	            var pullDownVisible = iScrollInstance.y >= appearDistance;
+	            var pullDownActive = iScrollInstance.y >= activeDistance;
+
 	            if (this.state.pullDownActive !== pullDownActive || this.state.pullDownVisible !== pullDownVisible) {
 	                this.setState({
 	                    pullDownVisible: pullDownVisible,
@@ -182,15 +227,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	            }
 	            var pullDown = this.refs.pullDown;
 	            if (pullDown) {
-	                pullDown.style.top = instance.y - showDistance + "px";
+	                pullDown.style.top = iScrollInstance.y - pullDown.clientHeight - 5 + "px";
 	            }
 	        }
 	    }, {
 	        key: "onTouchEnd",
 	        value: function onTouchEnd() {
-	            //console.log("touchEnd ")
 	            if (this.state.pullDownActive) {
-	                this.props.pullDownToRefresh.refresh();
+	                this.props.pullDownToRefresh.onRefresh();
 	            }
 	            this.setState({
 	                pullDownVisible: false,
@@ -223,12 +267,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	                if (pullDownToRefresh) {
 	                    pullDownToRefresh.labelInactive = pullDownToRefresh.labelInactive || _react2.default.createElement(
 	                        "div",
-	                        { id: "pull-down", ref: "pullDown" },
+	                        null,
 	                        "Pull down to refresh.."
 	                    );
 	                    pullDownToRefresh.labelActive = pullDownToRefresh.labelActive || _react2.default.createElement(
 	                        "div",
-	                        { id: "pull-down", ref: "pullDown" },
+	                        null,
 	                        "Release to refresh.."
 	                    );
 	                }
@@ -242,7 +286,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	                return _react2.default.createElement(
 	                    "div",
 	                    { style: { position: "relative" } },
-	                    label
+	                    _react2.default.createElement(
+	                        "div",
+	                        { id: "pull-down", ref: "pullDown" },
+	                        label
+	                    )
 	                );
 	            }
 	            return null;
@@ -250,7 +298,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: "render",
 	        value: function render() {
-	            var children = this.props.children;
+	            var _props = this.props;
+	            var children = _props.children;
+	            var wrapperStyle = _props.wrapperStyle;
 
 
 	            return _react2.default.createElement(
@@ -258,7 +308,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                { className: "react-iscroll" },
 	                _react2.default.createElement(
 	                    "div",
-	                    { id: "wrapper", ref: "wrapper" },
+	                    { id: "wrapper", ref: "wrapper", style: wrapperStyle },
 	                    _react2.default.createElement(
 	                        "div",
 	                        { id: "scroller", ref: "scroller" },
@@ -274,9 +324,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	}(_react.Component);
 
 	IScroll.propTypes = {
-	    iScroll: _react.PropTypes.any.isRequired,
-	    children: _react.PropTypes.node,
+	    iScroll: _react.PropTypes.func.isRequired,
 	    options: _react.PropTypes.object,
+	    children: _react.PropTypes.node,
+
+	    // iscroll events
 	    onBeforeScrollStart: _react.PropTypes.func,
 	    onScrollCancel: _react.PropTypes.func,
 	    onScrollStart: _react.PropTypes.func,
@@ -285,13 +337,51 @@ return /******/ (function(modules) { // webpackBootstrap
 	    onFlick: _react.PropTypes.func,
 	    onZoomStart: _react.PropTypes.func,
 	    onZoomEnd: _react.PropTypes.func,
+
+	    // On mobile devices, sometimes we wish user can always scroll,
+	    // even the scroller's height is smaller than the wrapper's.
+	    // However, iscroll itself doesn't provide this option,
+	    // thus we dynamically set scroller's height to slightly bigger than wrapper's height
+	    // default: true
+	    alwaysScroll: _react.PropTypes.bool,
+
+	    // Calculate the wrapper's top dynamically
+	    // default: true
+	    dynamicTop: _react.PropTypes.bool,
+
+	    // Calculate the wrapper's bottom dynamically,
+	    // since we can't use the wrapper's height for calculation, so I exposed a function
+	    // notes: because IScroll is mounted before the parent,
+	    // if you want to use this feature, make sure to call updateIScroll() when parent is mounted,
+	    // just like the async load
+	    dynamicBottomFunc: _react.PropTypes.func,
+
+	    // If wrapper's position is static, provide here..
+	    wrapperStyle: _react.PropTypes.shape({
+	        top: _react.PropTypes.number,
+	        bottom: _react.PropTypes.number,
+	        left: _react.PropTypes.number,
+	        right: _react.PropTypes.number
+	    }),
+
+	    // If you want to enabled PullDownToRefresh feature,
+	    // ensure the iScroll prop you passed is "iscroll-probe"
 	    pullDownToRefresh: _react.PropTypes.shape({
+	        // you can customize the PullDownToRefresh labels
 	        labelInactive: _react.PropTypes.oneOfType([_react.PropTypes.string, _react.PropTypes.node]),
 	        labelActive: _react.PropTypes.oneOfType([_react.PropTypes.string, _react.PropTypes.node]),
-	        showDistance: _react.PropTypes.number,
+	        // PullDownToRefresh label appears when iscroll's y distance bigger than this value
+	        appearDistance: _react.PropTypes.number,
+	        // PullDownToRefresh active label appears when iscroll's y distance bigger than this value
 	        activeDistance: _react.PropTypes.number,
-	        refresh: _react.PropTypes.func.isRequired
+	        // onRefresh func
+	        onRefresh: _react.PropTypes.func.isRequired
 	    })
+	};
+
+	IScroll.defaultProps = {
+	    alwaysScroll: true,
+	    dynamicTop: false
 	};
 
 	exports.default = IScroll;
@@ -313,12 +403,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 	exports.wrapFunc = wrapFunc;
 	exports.getOffset = getOffset;
+	/**
+	 * Since iscroll events are call with "this" pointing to iscroll instance,
+	 * here we wrap it with a function while keeping "this"
+	 * @param func
+	 * @returns {Function}
+	 */
 	function wrapFunc(func) {
 	    return function () {
 	        func(this);
 	    };
 	}
 
+	/**
+	 * These three functions are used to get the element's offset,
+	 * reference from http://javascript.info/tutorial/coordinates
+	 * @param elem
+	 * @returns {{top: number, left: number}}
+	 * @private
+	 */
 	function _getOffsetSum(elem) {
 	    var top = 0,
 	        left = 0;
@@ -349,7 +452,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return { top: Math.round(top), left: Math.round(left) };
 	}
 
-	// http://javascript.info/tutorial/coordinates
 	function getOffset(elem) {
 	    if (elem.getBoundingClientRect) {
 	        return _getOffsetRect(elem);
@@ -394,7 +496,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	// module
-	exports.push([module.id, ".react-iscroll #wrapper {\n  position: absolute;\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  width: 100%;\n  overflow: hidden;\n}\n.react-iscroll #scroller {\n  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);\n  width: 100%;\n  -webkit-transform: translateZ(0);\n  -moz-transform: translateZ(0);\n  -ms-transform: translateZ(0);\n  -o-transform: translateZ(0);\n  transform: translateZ(0);\n  -webkit-touch-callout: none;\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none;\n  -webkit-text-size-adjust: none;\n  -moz-text-size-adjust: none;\n  -ms-text-size-adjust: none;\n  -o-text-size-adjust: none;\n  text-size-adjust: none;\n}\n.react-iscroll #pull-down {\n  color: #999;\n  z-index: -1;\n  width: 100%;\n  position: absolute;\n  text-align: center;\n}\n", ""]);
+	exports.push([module.id, ".react-iscroll #wrapper {\n  position: absolute;\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  overflow: hidden;\n}\n.react-iscroll #scroller {\n  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);\n  width: 100%;\n  -webkit-transform: translateZ(0);\n  -moz-transform: translateZ(0);\n  -ms-transform: translateZ(0);\n  -o-transform: translateZ(0);\n  transform: translateZ(0);\n  -webkit-touch-callout: none;\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none;\n  -webkit-text-size-adjust: none;\n  -moz-text-size-adjust: none;\n  -ms-text-size-adjust: none;\n  -o-text-size-adjust: none;\n  text-size-adjust: none;\n}\n.react-iscroll #pull-down {\n  color: #999;\n  z-index: -1;\n  width: 100%;\n  position: absolute;\n  text-align: center;\n}\n", ""]);
 
 	// exports
 

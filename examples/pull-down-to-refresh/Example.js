@@ -75,7 +75,7 @@ class Example extends Component {
     render() {
         return <div className="example">
                 <div className="header">Async Request & Pull Down to Refresh</div>
-                <IScroll ref="iscroll" iScroll={iscroll} wrapperStyle={{bottom:50}} dynamicTop alwaysScroll
+                <IScroll ref="iscroll" iScroll={iscroll} wrapperStyle={{bottom:50}} dynamicTop
                     pullDownToRefresh={{onRefresh: this.fetchStargazers}}>
                     {this.renderList()}
                 </IScroll>
