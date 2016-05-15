@@ -3,7 +3,11 @@ var path = require("path")
 module.exports = {
     devtool: 'cheap-module-source-map',
     entry: {
-        "basic": ["./examples/basic/basic.js"],
+        "basic": ["./examples/basic/Example"],
+        "always-scroll": ["./examples/always-scroll/Example"],
+        "dynamic-top": ["./examples/dynamic-top/Example"],
+        "dynamic-bottom": ["./examples/dynamic-bottom/Example"],
+        "scroller-height-changes": ["./examples/scroller-height-changes/Example"],
     },
     output: {
         path: __dirname,

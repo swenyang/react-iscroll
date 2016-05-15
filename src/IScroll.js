@@ -35,8 +35,8 @@ class IScroll extends Component {
 
     static defaultProps = {
         ...Component.defaultProps,
-        alwaysScroll: true,
-        dynamicTop: true,
+        alwaysScroll: false,
+        dynamicTop: false,
     }
 
     constructor(props) {
@@ -59,6 +59,7 @@ class IScroll extends Component {
     /**
      * Since IScroll don't know children updated or not, you might need to call this function manually.
      * e.g. on async data loaded, or on children's state changed
+     * TODO: should be called automatically on needed
      */
     updateIScroll() {
         let wrapper = this.refs.wrapper
@@ -67,13 +68,11 @@ class IScroll extends Component {
             const {props} = this
 
             // apply wrapper's dynamic properties
-            if (props.wrapper) {
-                if (props.dynamicTop) {
-                    wrapper.style.top = getOffset(wrapper.parentNode).top + "px"
-                }
-                if (props.dynamicBottomFunc) {
-                    wrapper.style.bottom = props.dynamicBottomFunc() + "px"
-                }
+            if (props.dynamicTop) {
+                wrapper.style.top = getOffset(wrapper.parentNode).top + "px"
+            }
+            if (props.dynamicBottomFunc) {
+                wrapper.style.bottom = props.dynamicBottomFunc() + "px"
             }
 
             if (props.alwaysScroll) {
@@ -183,10 +182,10 @@ class IScroll extends Component {
     }
 
     render() {
-        const {children, wrapperPosition} = this.props
+        const {children, wrapperStyle} = this.props
 
         return <div className="react-iscroll">
-                <div id="wrapper" ref="wrapper" style={wrapperPosition}>
+                <div id="wrapper" ref="wrapper" style={wrapperStyle}>
                     <div id="scroller" ref="scroller">
                     {children}
                     </div>
@@ -213,7 +212,7 @@ IScroll.propTypes = {
 
     // On mobile devices, sometimes we wish user can always scroll,
     // even the scroller's height is smaller than the wrapper's.
-    // However, iscroll itself doesn't provide this options,
+    // However, iscroll itself doesn't provide this option,
     // thus we dynamically set scroller's height to slightly bigger than wrapper's height
     // default: true
     alwaysScroll: PropTypes.bool,
@@ -230,7 +229,7 @@ IScroll.propTypes = {
     dynamicBottomFunc: PropTypes.func,
 
     // If wrapper's position is static, provide here..
-    wrapperPosition: PropTypes.shape({
+    wrapperStyle: PropTypes.shape({
         top: PropTypes.number,
         bottom: PropTypes.number,
         left: PropTypes.number,

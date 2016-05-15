@@ -1,47 +1,33 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
-import iscroll from "iscroll/build/iscroll-probe"
-//import iscroll from "iscroll"
+import iscroll from "iscroll"
 //import IScroll from "../../dist/react-iscroll"
 import IScroll, {setDefaultIScrollOptions}  from "../../src/IScroll"
 
-import "./basic.less"
+import "./example.less"
 
 class Example extends Component {
-    constructor(props) {
-        super(props)
-        this.calBottom = this.calBottom.bind(this)
-    }
-
-    componentDidMount() {
-        this.refs.iscroll.updateIScroll()
-    }
-
-    calBottom() {
-        return this.refs.bottom ? this.refs.bottom.clientHeight : 0
-    }
-
     render() {
         let arr = []
         for (let i = 0; i < 50; i++) {
             arr.push(i)
         }
 
-        return <div className="basic">
-                <div className="header">React Component for iScroll</div>
-                <IScroll iScroll={iscroll} wrapper={{dynamicTop:true}} dynamicBottomFunc={this.calBottom}
-                         ref="iscroll" pullDownToRefresh={{onRefresh:()=>{}}}>
+        return <div className="example">
+                <div className="header">IScroll's Position to Top is Dynamic</div>
+                <IScroll iScroll={iscroll} wrapperStyle={{bottom:50}} dynamicTop>
                     <ul>{arr.map((elem, index) =>
                         <li className="entry" key={index}>{"Pretty row " + (index+1)}</li>)}
                     </ul>
                 </IScroll>
-                <div className="footer" ref="bottom">
+                <div className="footer">
                     <a href="https://github.com/swenyang/react-iscroll" target="_blank">https://github.com/swenyang/react-iscroll</a>
                 </div>
         </div>
     }
 }
 
+// call somewhere once
 setDefaultIScrollOptions({
     scrollbars: true,
     mouseWheel: true,
