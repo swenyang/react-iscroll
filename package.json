@@ -1,8 +1,8 @@
 {
-  "name": "react-iscroll",
+  "name": "iscroll-react",
   "version": "1.0.0",
   "description": "Encapsulating iScroll as a react component",
-  "main": "index.js",
+  "main": "dist/iscroll-react.js",
   "scripts": {
     "build": "rm -rf dist&&webpack --config webpack.config.js --progress --colors",
     "prepublish": "npm run build",

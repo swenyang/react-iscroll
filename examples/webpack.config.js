@@ -1,7 +1,7 @@
 var path = require("path")
 
 module.exports = {
-    devtool: 'cheap-module-source-map',
+    devtool: "cheap-module-source-map",
     entry: {
         "basic": ["./examples/basic/Example"],
         "always-scroll": ["./examples/always-scroll/Example"],

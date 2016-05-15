@@ -4,9 +4,9 @@
 	else if(typeof define === 'function' && define.amd)
 		define(["react"], factory);
 	else if(typeof exports === 'object')
-		exports["react-iscroll"] = factory(require("react"));
+		exports["iscroll-react"] = factory(require("react"));
 	else
-		root["react-iscroll"] = factory(root["react"]);
+		root["iscroll-react"] = factory(root["react"]);
 })(this, function(__WEBPACK_EXTERNAL_MODULE_2__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache

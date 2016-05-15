@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import iscroll from "iscroll"
-//import IScroll from "../../dist/react-iscroll"
+//import IScroll, {setDefaultIScrollOptions} from "../../dist/iscroll-react"
 import IScroll, {setDefaultIScrollOptions}  from "../../src/IScroll"
 
 import "./example.less"
