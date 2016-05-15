@@ -33,12 +33,6 @@ class IScroll extends Component {
     // touchend listener is used for PullDownToRefresh
     _listenToTouchEnd = false
 
-    static defaultProps = {
-        ...Component.defaultProps,
-        alwaysScroll: false,
-        dynamicTop: false,
-    }
-
     constructor(props) {
         super(props)
 
@@ -59,7 +53,7 @@ class IScroll extends Component {
     /**
      * Since IScroll don't know children updated or not, you might need to call this function manually.
      * e.g. on async data loaded, or on children's state changed
-     * TODO: should be called automatically on needed
+     * TODO: should be called automatically on needed, manual call is inconvenient
      */
     updateIScroll() {
         let wrapper = this.refs.wrapper
@@ -239,7 +233,7 @@ IScroll.propTypes = {
     // If you want to enabled PullDownToRefresh feature,
     // ensure the iScroll prop you passed is "iscroll-probe"
     pullDownToRefresh: PropTypes.shape({
-        // you can customize the PullDownToRefresh label
+        // you can customize the PullDownToRefresh labels
         labelInactive: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
         labelActive: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
         // PullDownToRefresh label appears when iscroll's y distance bigger than this value
@@ -249,6 +243,11 @@ IScroll.propTypes = {
         // onRefresh func
         onRefresh: PropTypes.func.isRequired,
     }),
+}
+
+IScroll.defaultProps = {
+    alwaysScroll: false,
+    dynamicTop: false,
 }
 
 export default IScroll

@@ -8,6 +8,7 @@ module.exports = {
         "dynamic-top": ["./examples/dynamic-top/Example"],
         "dynamic-bottom": ["./examples/dynamic-bottom/Example"],
         "scroller-height-changes": ["./examples/scroller-height-changes/Example"],
+        "pull-down-to-refresh": ["./examples/pull-down-to-refresh/Example"],
     },
     output: {
         path: __dirname,

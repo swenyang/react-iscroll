@@ -15,6 +15,7 @@ class Li extends Component {
         })
     }
 
+    // if your component has animation, call it when animation is done
     componentDidUpdate() {
         if (this.props.onChange) {
             this.props.onChange()
