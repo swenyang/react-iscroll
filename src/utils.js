@@ -1,9 +1,22 @@
+/**
+ * Since iscroll events are call with "this" pointing to iscroll instance,
+ * here we wrap it with a function while keeping "this"
+ * @param func
+ * @returns {Function}
+ */
 export function wrapFunc(func) {
     return function() {
         func(this)
     }
 }
 
+/**
+ * These three functions are used to get the element's offset,
+ * reference from http://javascript.info/tutorial/coordinates
+ * @param elem
+ * @returns {{top: number, left: number}}
+ * @private
+ */
 function _getOffsetSum(elem) {
     var top=0, left=0
     while(elem) {
@@ -33,7 +46,6 @@ function _getOffsetRect(elem) {
     return { top: Math.round(top), left: Math.round(left) }
 }
 
-// http://javascript.info/tutorial/coordinates
 export function getOffset(elem) {
     if (elem.getBoundingClientRect) {
         return _getOffsetRect(elem)
