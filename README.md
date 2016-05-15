@@ -34,15 +34,9 @@ class SomeComponent extends Component {
 You can provide props for React-IScroll to use some features.
 - `iScroll`
 
-	*Required*
-
-	iScroll library, see [here](http://iscrolljs.com/#iscroll-versions) for different versions of iScroll. Remember that if you use pull-down-to-refresh feature, please provide `iscroll-probe.js`.
+	*Required*, iScroll library, see [here](http://iscrolljs.com/#iscroll-versions) for different versions of iScroll. Remember that if you use pull-down-to-refresh feature, please provide `iscroll-probe.js`.
 
 - `options`
-
-	*Optional*
-
-	*`Default: {}`*
 
 	iScroll options, see [here]() for all options. It's directly provided to iScroll. Note that if you use pull-down-to-refresh feature, options will be appeded an attribute: `probeType: 2`
 
@@ -62,8 +56,6 @@ You can provide props for React-IScroll to use some features.
 
 - iScroll events
 
-	*Optional*
-
 	iScroll library itself provide some custom events, just wrapped them. All below events will be called with the iScroll instance, e.g. `onBeforeScrollStart(iScrollInstance)`, you can do whatever like reading iScroll properties or calling functions.
 	- `onBeforeScrollStart` <= `beforeScrollStart`
 	- `onScrollCancel` <= `scrollCancel`
@@ -76,23 +68,13 @@ You can provide props for React-IScroll to use some features.
 
 - `alwaysScroll`
 
-	*Optional*
-
-	*`Default: true`*
-
-	By setting this value to true, the scroller can be scrolled even the scroller's height is smaller than the wrappers.
+	By setting this value to true, the scroller can be scrolled even the scroller's height is smaller than the wrappers. Default is `true`.
 
 - `dynamicTop`
 
-	*Optional*
-
-	*`Default: false`*
-
-	Calculate the wrapper's top dynamically.
+	Calculate the wrapper's top dynamically. Default is `false`.
 
 - `dynamicBottomFunc`
-
-	*Optional*
 
 	Calculate the wrapper's bottom dynamically, since we can't use the wrapper's height for calculation, so I exposed a function.
 
@@ -100,15 +82,11 @@ You can provide props for React-IScroll to use some features.
 
 - `wrapperStyle`
 
-	*Optional*
-
 	If your wrapper's position is static, using this option the fast set wrapper's CSS attributes: `top`, `bottom`, `left` and `right`. If not specified, all will be `0`.
 
-	Note that `top` and `bottom` might be override by `dynamicTop` and `dynamicBottomFunc`.
+	*Note that `top` and `bottom` might be override by `dynamicTop` and `dynamicBottomFunc`.*
 
 - `pullDownToRefresh`
-
-	*Optional*
 
 	If you want to use pull-down-to-refresh feature, set this value. This option has sub props:
 
@@ -122,23 +100,17 @@ You can provide props for React-IScroll to use some features.
 
 	- `appearDistance`
 
-		*`Default: 20`*
-
-		If scroller's pull-down distance exceeds this value, `labelInactive` will be showed.
+		If scroller's pull-down distance exceeds this value, `labelInactive` will be showed. Default is `20`.
 
 	- `activeDistance`
 
-		*`Default: 55`*
-
-		If scroller's pull-down distance exceeds this value, `labelActive` will be showed.
+		If scroller's pull-down distance exceeds this value, `labelActive` will be showed. Default is `55`.
 
 		*Notes: if you have set the page's viewport, the above two values should be adjusted to get best experience.*
 
 	- `onRefresh`
 
-		*Required*
-
-		When touch is released, this function will be called if the pull down is active.
+		*Required*, When touch is released, this function will be called if the pull down is active.
 
 ## Functions
 - `IScroll.updateIScroll`
@@ -178,5 +150,5 @@ Clone this repo and run `npm run examples`, then navigate to <http://localhost:8
 - Scroller's Height Changes
 - Async Request & Pull Down to Refresh
 
-[iScroll]: (http://iscrolljs.com/)
-[React]: (https://github.com/facebook/react/)
+[iScroll]: http://iscrolljs.com/
+[React]: https://github.com/facebook/react/
