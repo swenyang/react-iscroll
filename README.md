@@ -8,7 +8,7 @@ iScroll is a high performance, small footprint, dependency free, multi-platform 
 A declarative, efficient, and flexible JavaScript library for building user interfaces.
 
 ## React-IScroll
-Since [iScroll][] doesn't provide [React][] version, I found it's very inconvenient to make iScroll work with React. So I decided to write a React component encapsulating iScroll library.
+Since [iScroll][] doesn't provide [React][] version, I found it's very inconvenient to make iScroll work with React. So I decided to write a React component encapsulating iScroll.
 
 ## How to Use
 Install from npm:
@@ -38,9 +38,9 @@ You can provide props for React-IScroll to use some features.
 
 - `options`
 
-	iScroll options, see [here]() for all options. It's directly provided to iScroll. Note that if you use pull-down-to-refresh feature, options will be appeded an attribute: `probeType: 2`
+	iScroll options, see [here]() for all options. It's directly provided to iScroll. Note that if you use pull-down-to-refresh feature, options will be appended an attribute: `probeType: 2`
 
-	Since you may use IScroll many times in your project, thus setting iScroll options many times. To simplify this, I added a `setDefaultIScrollOptions` function. Initialize once, iScroll will copy the default props on construct.
+	Since you may use React-IScroll many times in your project, setting iScroll options many times would be redundant. To simplify this, I added a `setDefaultIScrollOptions` function. Initialize once, iScroll will copy the default props on construct.
 
 	```js
 	import {setDefaultIScrollOptions}  from "iscroll-react"
@@ -56,7 +56,7 @@ You can provide props for React-IScroll to use some features.
 
 - iScroll events
 
-	iScroll library itself provide some custom events, just wrapped them. All below events will be called with the iScroll instance, e.g. `onBeforeScrollStart(iScrollInstance)`, you can do whatever like reading iScroll properties or calling functions.
+	iScroll itself provide some custom events, here I just wrapped them. All below events will be called with the iScroll instance, e.g. `onBeforeScrollStart(iScrollInstance)`, you can do whatever like reading iScroll properties or calling functions.
 	- `onBeforeScrollStart` <= `beforeScrollStart`
 	- `onScrollCancel` <= `scrollCancel`
 	- `onScrollStart` <= `scrollStart`
@@ -92,11 +92,11 @@ You can provide props for React-IScroll to use some features.
 
 	- `labelInactive`
 
-		Node showed when scroller is pull down but not active. You can provide either your React Compoenent or simply a string.
+		Node showed when scroller is pulled down but not active. You can provide either your React Compoenent or simply a string.
 
 	- `labelActive`
 
-		Node showed when pull down is active.
+		Node showed when pulldown is active.
 
 	- `appearDistance`
 
@@ -110,12 +110,12 @@ You can provide props for React-IScroll to use some features.
 
 	- `onRefresh`
 
-		*Required*, When touch is released, this function will be called if the pull down is active.
+		*Required*, When touch is released, this function will be called if the pulldown is active.
 
 ## Functions
 - `IScroll.updateIScroll`
 
-	Update iScroll library to `refresh()` and calculate wrapper's positions. Since IScroll don't know children updated or not, you might need to call this function manually, e.g. on async data loaded, or on children's state changed.
+	Update iScroll by calling `iScrollInstance.refresh()` and calculate wrapper's positions. Since React-IScroll don't know children updated or not, you might need to call this function manually, e.g. on async data loaded, or on children's state changed.
 
 	```js
 	import IScroll from "iscroll-react"
@@ -139,7 +139,7 @@ You can provide props for React-IScroll to use some features.
 
 - `setDefaultIScrollOptions`
 
-	As is explained above.
+	As is explained above, it's used to set iScroll's default options.
 
 ## Examples
 Clone this repo and run `npm run examples`, then navigate to <http://localhost:8080/> to see examples.
