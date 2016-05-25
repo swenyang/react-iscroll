@@ -38,9 +38,9 @@ You can provide props for React-IScroll to use some features.
 
 - `options`
 
-	iScroll options, see [here]() for all options. It's directly provided to iScroll. Note that if you use pull-down-to-refresh feature, options will be appended an attribute: `probeType: 2`
+	iScroll options, see [here](http://iscrolljs.com/#configuring) for all options. It's directly provided to iScroll. Note that if you are using pull-down-to-refresh feature, options will be appended an attribute: `probeType: 2`
 
-	Since you may use React-IScroll many times in your project, setting iScroll options many times would be redundant. To simplify this, I added a `setDefaultIScrollOptions` function. Initialize once, iScroll will copy the default props on construct.
+	Since you may use React-IScroll many times in your project, setting iScroll options many times would be redundant. To simplify this, I added a `setDefaultIScrollOptions` function. Initialized once, iScroll will copy the default props on construct.
 
 	```js
 	import {setDefaultIScrollOptions}  from "iscroll-react"
@@ -78,7 +78,7 @@ You can provide props for React-IScroll to use some features.
 
 	Calculate the wrapper's bottom dynamically, since we can't use the wrapper's height for calculation, so I exposed a function.
 
-	*Notes: because React-IScroll is mounted before the parent, if you want to use this feature, make sure to call `updateIScroll()` when parent is mounted.*
+	*Notes: because React-IScroll is mounted before the parent, if you want to use this feature, make sure to call `updateIScroll()` when the parent is mounted.*
 
 - `wrapperStyle`
 
@@ -92,11 +92,11 @@ You can provide props for React-IScroll to use some features.
 
 	- `labelInactive`
 
-		Node showed when scroller is pulled down but not active. You can provide either your React Compoenent or simply a string.
+		Node showed when scroller is pulled down but not active. You can provide either your React Component or simply a string.
 
 	- `labelActive`
 
-		Node showed when pulldown is active.
+		Node showed when pulldown is active. Provide either a React Component or string.
 
 	- `appearDistance`
 
