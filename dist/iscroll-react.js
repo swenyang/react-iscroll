@@ -194,6 +194,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	                if ((typeof _ret === "undefined" ? "undefined" : _typeof(_ret)) === "object") return _ret.v;
 	            }
 	        }
+
+	        /**
+	         * expose a function to get iScroll instance
+	         * @returns {*}
+	         */
+
 	    }, {
 	        key: "onScrollStart",
 	        value: function onScrollStart() {
@@ -317,6 +323,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	                ),
 	                this.renderPullDown()
 	            );
+	        }
+	    }, {
+	        key: "iScrollInstance",
+	        get: function get() {
+	            return this._iScroll;
 	        }
 	    }]);
 

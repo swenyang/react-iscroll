@@ -1,6 +1,6 @@
 {
   "name": "iscroll-react",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Encapsulating iScroll as a react component",
   "main": "dist/iscroll-react.js",
   "scripts": {
