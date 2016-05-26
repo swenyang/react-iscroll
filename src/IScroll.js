@@ -97,6 +97,14 @@ class IScroll extends Component {
         }
     }
 
+    /**
+     * expose a function to get iScroll instance
+     * @returns {*}
+     */
+    get iScrollInstance() {
+        return this._iScroll
+    }
+
     onScrollStart() {
         if (!this._listenToTouchEnd) {
             this._listenToTouchEnd = true

@@ -137,6 +137,10 @@ You can provide props for React-IScroll to use some features.
 	}
 	```
 
+- `IScroll.iScrollInstance`
+
+    Used to get the iScroll instance, if initialized.
+
 - `setDefaultIScrollOptions`
 
 	As is explained above, it's used to set iScroll's default options.
