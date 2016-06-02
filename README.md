@@ -1,4 +1,4 @@
-# React-IScroll
+# React IScroll
 Encapsulating iScroll as a react component
 
 ## [iScroll][]
@@ -7,7 +7,7 @@ iScroll is a high performance, small footprint, dependency free, multi-platform 
 ## [React][]
 A declarative, efficient, and flexible JavaScript library for building user interfaces.
 
-## React-IScroll
+## React IScroll
 Since [iScroll][] doesn't provide [React][] version, I found it's very inconvenient to make iScroll work with React. So I decided to write a React component encapsulating iScroll.
 
 ## How to Use
@@ -15,7 +15,7 @@ Install from npm:
 ```js
 npm i iscroll-react
 ```
-Use React-IScroll in your project:
+Use React IScroll in your project:
 ```js
 import IScroll from "iscroll-react"
 import React, { Component } from 'react'

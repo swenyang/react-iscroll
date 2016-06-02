@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import iscroll from "iscroll/build/iscroll-probe"
-//import IScroll, {setDefaultIScrollOptions} from "../../dist/iscroll-react"
-import IScroll, {setDefaultIScrollOptions}  from "../../src/IScroll"
+import IScroll, {setDefaultIScrollOptions} from "../../dist/iscroll-react"
+//import IScroll, {setDefaultIScrollOptions}  from "../../src/IScroll"
 import "whatwg-fetch"
 
 import "./example.less"
